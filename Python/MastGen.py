@@ -287,9 +287,10 @@ for record in records:
     for allign in allign_list:
         try:
             from Bio import SeqFeature
+            # sequence_name motif hit_start hit_end score hit_p-value
             start = int(allign[2])
             end = int(allign[3])
-            strnd = int(allign[1])
+            strnd = +1 if int(allign[1]) > 0 else -1
             p_value = float(allign[5])
             score = float(allign[4])
         except IndexError or ValueError:
@@ -575,8 +576,8 @@ for record in records:
             i = len(record.features)-1-i
             if record.features[i].type in ['promoter', 'protein_bind'] and \
                     record.features[i].type == record.features[i+1].type:
-                if 'bound_moiety' in (record.features[i].qualifiers.keys() and
-                                      record.features[i+1].qualifiers.keys()):
+                if ('bound_moiety' in record.features[i].qualifiers.keys() and
+                        'bound_moiety' in record.features[i+1].qualifiers.keys()):
                     bound_moiety_one = \
                         record.features[i].qualifiers['bound_moiety']
                     bound_moiety_two = \
