@@ -368,9 +368,12 @@ for record in records:
                             hit.location.end:
                         cds_up = record.features[n]
                         break
-                if hit.location.start > \
-                        allowed_features_list[-1].location.end:
-                    cds_up = allowed_features_list[0]
+                else:
+                    if hit.location.start > \
+                            allowed_features_list[-1].location.end:
+                        cds_up = allowed_features_list[0]
+                    else:
+                        continue
                 for c in reversed(range(len(allowed_features_list))):
                     if allowed_features_list[c].location.end < \
                             hit.location.start:
@@ -380,6 +383,8 @@ for record in records:
                             allowed_features_list[0].location.start:
                         cds_down = allowed_features_list[-1]
                         break
+                else:
+                    continue
                 if (enter.palindromic is True and
                         cds_up.strand == cds_down.strand)\
                         or enter.palindromic is False:
